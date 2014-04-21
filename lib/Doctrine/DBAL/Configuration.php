@@ -21,6 +21,9 @@ namespace Doctrine\DBAL;
 
 use Doctrine\DBAL\Logging\SQLLogger;
 use Doctrine\Common\Cache\Cache;
+use Doctrine\DBAL\Transaction\DefaultTransactionFactory;
+use Doctrine\DBAL\Transaction\TransactionFactory;
+use Doctrine\DBAL\Transaction\TransactionManager;
 
 /**
  * Configuration container for the Doctrine DBAL.
@@ -116,5 +119,27 @@ class Configuration
         }
 
         return null;
+    }
+
+    /**
+     * Sets the transaction factory that is used to create transactions.
+     *
+     * @param \Doctrine\DBAL\Transaction\TransactionFactory $transactionFactory The transaction factory.
+     */
+    public function setTransactionFactory(TransactionFactory $transactionFactory)
+    {
+        $this->_attributes['transactionFactory'] = $transactionFactory;
+    }
+
+    /**
+     * Returns the transaction factory that is used to create transactions.
+     *
+     * @return \Doctrine\DBAL\Transaction\TransactionFactory
+     */
+    public function getTransactionFactory()
+    {
+        return isset($this->_attributes['transactionFactory'])
+            ? $this->_attributes['transactionFactory']
+            : new DefaultTransactionFactory();
     }
 }
