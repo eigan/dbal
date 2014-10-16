@@ -44,5 +44,3 @@ mount --bind /run/resolvconf/resolv.conf /etc/resolv.conf
 # Start docker daemon
 docker -d &
 sleep 5
-# Use docker
-docker pull mysql

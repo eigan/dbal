@@ -1,3 +1,14 @@
+language: php
+
+php:
+  - 5.3
+
+env:
+  - DB=oci8
+
+before_install:
+  - composer self-update
+
 install:
   - sudo sh -c "wget -qO- https://get.docker.io/gpg | apt-key add -"
   - sudo sh -c "echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
@@ -8,5 +19,9 @@ install:
   - sudo apt-get install -y slirp lxc lxc-docker aufs-tools cgroup-lite
   - curl -sLo linux https://github.com/jpetazzo/sekexe/raw/master/uml
   - chmod +x linux
+  - composer update --prefer-source
 
-script: ./linux quiet mem=2G rootfstype=hostfs rw eth0=slirp,,/usr/bin/slirp-fullbolt init=$(pwd)/uml.sh WORKDIR=$(pwd) HOME=$HOME
+before_script:
+  - sh -c "if [ '$DB' = 'oci8' ]; then ./start_docker.sh && docker pull wnameless/oracle-xe-11g && docker run -d -p 1521:1521 wnameless/oracle-xe-11g; fi"
+
+script: phpunit --configuration tests/travis/$DB.travis.xml
