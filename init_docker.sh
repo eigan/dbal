@@ -44,3 +44,10 @@ mount --bind /run/resolvconf/resolv.conf /etc/resolv.conf
 # Start docker daemon
 docker -d &
 sleep 5
+
+docker pull wnameless/oracle-xe-11g
+docker run -d -p 1521:1521 wnameless/oracle-xe-11g
+
+sleep 10
+
+phpunit --configuration tests/travis/$DB.travis.xml
