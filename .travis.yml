@@ -1,4 +1,4 @@
-sudo: false
+#sudo: false
 
 language: php
 
@@ -17,20 +17,27 @@ env:
   - DB=pgsql POSTGRESQL_VERSION=9.3
   - DB=sqlite
   - DB=mysqli
+  - DB=db2
 
-cache:
-  directories:
-    - vendor
-    - $HOME/.composer/cache
-
-addons:
-  postgresql: $POSTGRESQL_VERSION
+#cache:
+#  directories:
+#    - vendor
+#    - $HOME/.composer/cache
 
 before_install:
   - composer self-update
+  - sh -c "if [ '$DB' = 'db2' ]; then sudo echo 'deb http://archive.canonical.com/ubuntu precise partner' >> /etc/apt/sources.list; fi"
+  - sh -c "if [ '$DB' = 'db2' ]; then sudo echo 'deb-src http://archive.canonical.com/ubuntu precise partner' >> /etc/apt/sources.list; fi"
+  - sh -c "if [ '$DB' = 'db2' ]; then sudo apt-get update -y; fi"
+  - sh -c "if [ '$DB' = 'db2' ]; then sudo apt-get install -y db2exc; fi"
+  - sh -c "if [ '$DB' = 'db2' ]; then sudo su - db2inst1 -c 'db2sampl; db2 activate db sample; db2 connect to SAMPLE'; fi"
 
 install:
   - composer update --prefer-source
+
+before_script:
+  - sh -c "if [ '$DB' = 'pgsql' ]; then sudo service postgresql stop; sudo service postgresql start $POSTGRESQL_VERSION; fi"
+  - sh -c "if [ '$DB' = 'db2' ]; then sudo su - db2inst1 -c 'db2sampl; db2 activate db sample; db2 connect to SAMPLE'; fi"
 
 script: ./vendor/bin/phpunit --configuration tests/travis/$DB.travis.xml
 
