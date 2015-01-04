@@ -8,7 +8,7 @@
         <var name="db_name" value="SAMPLE" />
         <var name="db_port" value="3306"/>
 
-        <var name="tmpdb_type" value="idm_db2"/>
+        <var name="tmpdb_type" value="ibm_db2"/>
         <var name="tmpdb_host" value="localhost" />
         <var name="tmpdb_username" value="db2inst1" />
         <var name="tmpdb_name" value="SAMPLE" />
