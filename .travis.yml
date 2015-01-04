@@ -23,14 +23,14 @@ cache:
     - vendor
     - $HOME/.composer/cache
 
+addons:
+  postgresql: $POSTGRESQL_VERSION
+
 before_install:
   - composer self-update
 
 install:
   - composer update --prefer-source
-
-before_script:
-  - sh -c "if [ '$DB' = 'pgsql' ]; then sudo service postgresql stop; sudo service postgresql start $POSTGRESQL_VERSION; fi"
 
 script: ./vendor/bin/phpunit --configuration tests/travis/$DB.travis.xml
 
