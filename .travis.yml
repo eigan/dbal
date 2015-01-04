@@ -30,7 +30,7 @@ before_install:
   - sh -c "if [ '$DB' = 'db2' ]; then echo 'deb-src http://archive.canonical.com/ubuntu precise partner' | sudo tee -a /etc/apt/sources.list; fi"
   - sh -c "if [ '$DB' = 'db2' ]; then sudo apt-get update -y; fi"
   - sh -c "if [ '$DB' = 'db2' ]; then sudo apt-get install -y db2exc; fi"
-  - sh -c "if [ '$DB' = 'db2' ]; then sudo su - db2inst1 -c 'db2sampl; db2 activate db sample'; fi"
+  - sh -c "if [ '$DB' = 'db2' ]; then sudo su - db2inst1 -c 'db2 create db doctrine_tests'; fi"
   - sh -c "if [ '$DB' = 'db2' ]; then echo 'db2inst1:doctrine' | sudo chpasswd; fi"
   - sh -c "if [ '$DB' = 'db2' ]; then printf '/home/db2inst1/sqllib\n' | pecl install ibm_db2; fi"
 
@@ -39,7 +39,6 @@ install:
 
 before_script:
   - sh -c "if [ '$DB' = 'pgsql' ]; then sudo service postgresql stop; sudo service postgresql start $POSTGRESQL_VERSION; fi"
-  - sh -c "if [ '$DB' = 'db2' ]; then sudo su - db2inst1 -c 'db2sampl; db2 activate db sample; db2 connect to SAMPLE'; fi"
 
 script: ./vendor/bin/phpunit --configuration tests/travis/$DB.travis.xml
 
