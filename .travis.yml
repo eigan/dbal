@@ -15,8 +15,16 @@ env:
   - DB=pgsql POSTGRESQL_VERSION=9.3
   - DB=sqlite
   - DB=mysqli
+  - DB=db2
 
 before_install:
+  - sh -c "if [ '$DB' = 'db2' ]; then echo 'deb http://archive.canonical.com/ubuntu precise partner' | sudo tee -a /etc/apt/sources.list; fi"
+  - sh -c "if [ '$DB' = 'db2' ]; then echo 'deb-src http://archive.canonical.com/ubuntu precise partner' | sudo tee -a /etc/apt/sources.list; fi"
+  - sh -c "if [ '$DB' = 'db2' ]; then sudo apt-get update -y; fi"
+  - sh -c "if [ '$DB' = 'db2' ]; then sudo apt-get install -y db2exc; fi"
+  - sh -c "if [ '$DB' = 'db2' ]; then sudo su - db2inst1 -c 'db2 create db doctrine'; fi"
+  - sh -c "if [ '$DB' = 'db2' ]; then echo 'db2inst1:doctrine' | sudo chpasswd; fi"
+  - sh -c "if [ '$DB' = 'db2' ]; then printf '/home/db2inst1/sqllib\n' | pecl install ibm_db2; fi"
   - composer self-update
 
 install:
@@ -47,9 +55,13 @@ matrix:
         env: DB=pgsql POSTGRESQL_VERSION=9.2 # driver currently unsupported by HHVM
       - php: hhvm
         env: DB=pgsql POSTGRESQL_VERSION=9.3 # driver currently unsupported by HHVM
+      - php: hhvm
+        env: DB=db2 # driver currently unsupported by HHVM
       - php: hhvm-nightly
         env: DB=pgsql POSTGRESQL_VERSION=9.1 # driver currently unsupported by HHVM
       - php: hhvm-nightly
         env: DB=pgsql POSTGRESQL_VERSION=9.2 # driver currently unsupported by HHVM
       - php: hhvm-nightly
         env: DB=pgsql POSTGRESQL_VERSION=9.3 # driver currently unsupported by HHVM
+      - php: hhvm-nightly
+        env: DB=db2 # driver currently unsupported by HHVM
