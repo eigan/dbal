@@ -26,11 +26,12 @@ env:
 
 before_install:
   - composer self-update
-  - sh -c "if [ '$DB' = 'db2' ]; then sudo echo 'deb http://archive.canonical.com/ubuntu precise partner' >> /etc/apt/sources.list; fi"
-  - sh -c "if [ '$DB' = 'db2' ]; then sudo echo 'deb-src http://archive.canonical.com/ubuntu precise partner' >> /etc/apt/sources.list; fi"
+  - sh -c "if [ '$DB' = 'db2' ]; then sudo echo 'deb http://archive.canonical.com/ubuntu precise partner' | sudo tee -a /etc/apt/sources.list; fi"
+  - sh -c "if [ '$DB' = 'db2' ]; then sudo echo 'deb-src http://archive.canonical.com/ubuntu precise partner' | sudo tee -a /etc/apt/sources.list; fi"
   - sh -c "if [ '$DB' = 'db2' ]; then sudo apt-get update -y; fi"
   - sh -c "if [ '$DB' = 'db2' ]; then sudo apt-get install -y db2exc; fi"
   - sh -c "if [ '$DB' = 'db2' ]; then sudo su - db2inst1 -c 'db2sampl; db2 activate db sample; db2 connect to SAMPLE'; fi"
+  - sh -c "if [ '$DB' = 'db2' ]; then pecl install ibm_db2; fi"
 
 install:
   - composer update --prefer-source
