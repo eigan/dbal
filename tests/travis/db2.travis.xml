@@ -4,7 +4,7 @@
         <var name="db_type" value="ibm_db2"/>
         <var name="db_host" value="localhost" />
         <var name="db_username" value="db2inst1" />
-        <var name="db_password" value="" />
+        <var name="db_password" value="doctrine" />
         <var name="db_name" value="SAMPLE" />
         <var name="db_port" value="3306"/>
 
@@ -12,7 +12,7 @@
         <var name="tmpdb_host" value="localhost" />
         <var name="tmpdb_username" value="db2inst1" />
         <var name="tmpdb_name" value="SAMPLE" />
-        <var name="tmpdb_password" value="" />
+        <var name="tmpdb_password" value="doctrine" />
         <var name="tmpdb_port" value="3306"/>
     </php>
 
