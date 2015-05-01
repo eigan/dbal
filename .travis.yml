@@ -18,6 +18,11 @@ env:
   - DB=sqlite
   - DB=mysqli
 
+cache:
+  directories:
+    - vendor
+    - $HOME/.composer/cache
+
 before_install:
   - composer self-update
 
