@@ -27,6 +27,7 @@ before_install:
   - composer self-update
 
 install:
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - composer update --prefer-source
 
 before_script:
