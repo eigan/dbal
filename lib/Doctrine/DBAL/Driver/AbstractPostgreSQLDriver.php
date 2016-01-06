@@ -108,7 +108,7 @@ abstract class AbstractPostgreSQLDriver implements Driver, ExceptionConverterDri
         $minorVersion = isset($versionParts['minor']) ? $versionParts['minor'] : 0;
         $patchVersion = isset($versionParts['patch']) ? $versionParts['patch'] : 0;
         $version      = $majorVersion . '.' . $minorVersion . '.' . $patchVersion;
-
+var_dump('POSTGRES VERSION: ' . $version);
         switch(true) {
             case version_compare($version, '9.4', '>='):
                 return new PostgreSQL94Platform();
