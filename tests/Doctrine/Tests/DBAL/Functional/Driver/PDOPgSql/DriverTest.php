@@ -32,7 +32,9 @@ class DriverTest extends AbstractDriverTest
         $password = isset($parameters['password']) ? $parameters['password'] : null;
 
         $connection = $this->driver->connect($parameters, $user, $password);
-        $statement = $connection->query('SELECT application_name FROM pg_stat_activity');
+        $statement = $connection->query('SELECT * FROM pg_stat_activity');
+
+        var_dump($statement->fetchAll());
 
         $this->assertSame('doctrine', $statement->fetchColumn());
     }
