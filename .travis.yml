@@ -221,6 +221,10 @@ matrix:
     - php: 7.1
       env: DB=pgsql POSTGRESQL_VERSION=9.5
 
+
+before_install:
+  - docker pull ubuntu:16.04
+
 install:
   - travis_retry composer install
 
