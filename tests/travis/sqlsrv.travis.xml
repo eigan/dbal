@@ -13,7 +13,6 @@
         <var name="db_host" value="127.0.0.1" />
         <var name="db_username" value="sa" />
         <var name="db_password" value="D0ctrine" />
-        <var name="db_name" value="doctrine_tests" />
         <var name="db_port" value="1433"/>
 
         <var name="tmpdb_type" value="sqlsrv"/>
