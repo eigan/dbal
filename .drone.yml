@@ -30,3 +30,7 @@ matrix:
     #- pdo_sqlsrv
   DATABASE:
     - microsoft/mssql-server-linux
+
+networks:
+  default:
+    driver: bridge
