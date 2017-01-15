@@ -17,6 +17,16 @@ class TemporaryTableTest extends \Doctrine\Tests\DbalFunctionalTestCase
         }
     }
 
+    protected function tearDown()
+    {
+        if ($this->_conn) {
+            try {
+                $tempTable = $this->_conn->getDatabasePlatform()->getTemporaryTableName("my_temporary");
+                $this->_conn->exec($this->_conn->getDatabasePlatform()->getDropTemporaryTableSQL($tempTable));
+            } catch(\Exception $e) { }
+        }
+    }
+
     /**
      * @group DDC-1337
      * @return void

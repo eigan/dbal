@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Type;
 class TypeConversionTest extends \Doctrine\Tests\DbalFunctionalTestCase
 {
     static private $typeCounter = 0;
+    private static $init = false;
 
     protected function setUp()
     {
@@ -33,12 +34,15 @@ class TypeConversionTest extends \Doctrine\Tests\DbalFunctionalTestCase
         $table->addColumn('test_decimal', 'decimal', array('notnull' => false, 'scale' => 2, 'precision' => 10));
         $table->setPrimaryKey(array('id'));
 
-        try {
-            foreach ($this->_conn->getDatabasePlatform()->getCreateTableSQL($table) as $sql) {
-                $this->_conn->executeQuery($sql);
-            }
-        } catch(\Exception $e) {
+        if (!self::$init) {
+            try {
+                foreach ($this->_conn->getDatabasePlatform()->getCreateTableSQL($table) as $sql) {
+                    $this->_conn->executeQuery($sql);
+                }
 
+                self::$init = true;
+            } catch (\Exception $e) {
+            }
         }
     }
 
