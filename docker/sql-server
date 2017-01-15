@@ -23,4 +23,4 @@ RUN echo "extension=pdo_sqlsrv.so" > /etc/php/7.0/cli/conf.d/pdo_sqlsrv.so.ini
 
 WORKDIR /doctrine
 
-#ENTRYPOINT ["vendor/bin/phpunit"]
+ENTRYPOINT ["vendor/bin/phpunit", "-c"]
