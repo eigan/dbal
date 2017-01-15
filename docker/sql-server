@@ -2,8 +2,6 @@ FROM ubuntu:16.04
 
 MAINTAINER doctrine
 
-ENV LANG en_US.UTF-8
-
 RUN apt-get update -qq && \
     apt-get install -qq -y --no-install-recommends wget
 
@@ -12,11 +10,16 @@ RUN echo "deb [arch=amd64] http://packages.microsoft.com/ubuntu/16.04/prod xenia
 
 RUN apt-get update -qq && \
     ACCEPT_EULA=Y apt-get install -qq -y \
+        locales \
         php-pear \
         php7.0-cli \
         php7.0-dev \
         msodbcsql \
         unixodbc-dev-utf16
+
+# set locale to utf-8
+RUN locale-gen en_US.UTF-8
+ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
 RUN pecl install sqlsrv pdo_sqlsrv
 
