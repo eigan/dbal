@@ -144,6 +144,20 @@ matrix:
       services:
         - postgresql
       env: DB=pgsql POSTGRESQL_VERSION=9.5
+    - php: 7.0
+      sudo: true
+      dist: trusty
+      services:
+        - docker
+      env:
+        global:
+          - ACCEPT_EULA=Y
+      before_install:
+        - docker pull microsoft/mssql-server-linux
+      install:
+        - docker build -f docker/sql-server .
+        - docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=doctrine' -p 1433:1433 --name=db -d microsoft/mssql-server-linux
+
     - php: hhvm
       sudo: true
       dist: trusty
@@ -220,14 +234,8 @@ matrix:
     - php: 7.1
       env: DB=pgsql POSTGRESQL_VERSION=9.5
 
-
-before_install:
-  - docker pull microsoft/mssql-server-linux
-
 install:
   - travis_retry composer install
-  - docker build -f docker/sql-server .
-  - docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=doctrine' -p 1433:1433 --name=db -d microsoft/mssql-server-linux
 
 before_script:
   - if [ '$DB' = 'pgsql' ]; then sudo service postgresql stop; sudo service postgresql start $POSTGRESQL_VERSION; fi
