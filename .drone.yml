@@ -4,6 +4,13 @@ pipeline:
     commands:
       - vendor/bin/phpunit -c tests/travis/${DRIVER}.travis.xml
 
+services:
+  database:
+    image: ${DATABASE}
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=doctrine
+
 matrix:
   PHP:
     - 7.0
