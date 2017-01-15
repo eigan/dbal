@@ -22,7 +22,7 @@ class WriteTest extends \Doctrine\Tests\DbalFunctionalTestCase
                 $this->_conn->executeQuery($sql);
             }
         } catch(\Exception $e) {
-
+var_dump($e->getMessage());
         }
         $this->_conn->executeUpdate('DELETE FROM write_table');
     }
