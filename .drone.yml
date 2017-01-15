@@ -4,23 +4,6 @@ pipeline:
     commands:
       - vendor/bin/phpunit -c tests/travis/${DRIVER}.travis.xml
 
-services:
-  database:
-    image: ${DATABASE}
-    environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=doctrine
-  php-sqlsrv:
-    build:
-      dockerfile: ./docker/sql-server
-      context: ./docker
-    volumes:
-      - .:/doctrine
-    environment:
-      - DRIVER=${DRIVER}
-    depends_on:
-      - database
-
 matrix:
   PHP:
     - 7.0
