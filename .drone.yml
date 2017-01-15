@@ -8,6 +8,7 @@ pipeline:
         - /var/lib/docker:/var/lib/docker
   cache_restore:
     image: plugins/sftp-cache
+    server: localhost
     path: /var/cache/drone
     restore: true
     mount:
@@ -17,6 +18,7 @@ pipeline:
       commands:
         - composer install
   cache_rebuild:
+      server: localhost
       image: plugins/sftp-cache
       path: /var/cache/drone
       rebuild: true
