@@ -31,4 +31,3 @@ matrix:
   DATABASE:
     - microsoft/mssql-server-linux
 
-
