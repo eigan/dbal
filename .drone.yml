@@ -2,7 +2,7 @@ pipeline:
   build:
     image: php-sqlsrv
     commands:
-      - vendor/bin/phpunit -c tests/travis/$DRIVER.travis.xml
+      - vendor/bin/phpunit -c tests/travis/${DRIVER}.travis.xml
 
 services:
   database:
