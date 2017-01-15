@@ -24,6 +24,8 @@ ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
 RUN pecl install sqlsrv pdo_sqlsrv
 
+RUN echo "extension=sqlite3.so" > /etc/php/7.0/cli/conf.d/sqlite3.ini
+RUN echo "extension=pdo_sqlite.so" > /etc/php/7.0/cli/conf.d/pdo_sqlite.ini
 RUN echo "extension=sqlsrv.so" > /etc/php/7.0/cli/conf.d/sqlsrv.ini
 RUN echo "extension=pdo_sqlsrv.so" > /etc/php/7.0/cli/conf.d/pdo_sqlsrv.so.ini
 
