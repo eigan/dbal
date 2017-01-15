@@ -149,9 +149,7 @@ matrix:
       dist: trusty
       services:
         - docker
-      env:
-        global:
-          - ACCEPT_EULA=Y
+      env: DB=sqlsrv
       before_install:
         - docker pull microsoft/mssql-server-linux
       install:
