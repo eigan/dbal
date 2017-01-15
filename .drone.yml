@@ -1,16 +1,22 @@
 pipeline:
   build:
-    image: plugins/docker
-    repo: php-sqlsrv
-    dockerfile: ./docker/sql-server
-    context: ./docker
+    image: docker
+    commands:
+      - docker build -t php-sqlsrv -f docker/sql-server docker
+    volumes:
+        - /var/run/docker.sock:/var/run/docker.sock:ro
+        - /var/lib/docker:/var/lib/docker
+  install:
+      image: composer/composer
+      commands:
+        - composer install
   test:
     image: php-sqlsrv
     commands:
       - vendor/bin/phpunit -c tests/travis/${DRIVER}.travis.xml
 
 services:
-  database:
+  db:
     image: ${DATABASE}
     environment:
       - ACCEPT_EULA=Y
@@ -21,7 +27,7 @@ matrix:
     - 7.0
   DRIVER:
     - sqlsrv
-    - pdo_sqlsrv
+    #- pdo_sqlsrv
   DATABASE:
     - microsoft/mssql-server-linux
 
