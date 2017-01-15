@@ -6,23 +6,28 @@ use PDO;
 
 class WriteTest extends \Doctrine\Tests\DbalFunctionalTestCase
 {
+    private static $init = false;
+
     protected function setUp()
     {
         parent::setUp();
 
-        try {
-            /* @var $sm \Doctrine\DBAL\Schema\AbstractSchemaManager */
-            $table = new \Doctrine\DBAL\Schema\Table("write_table");
-            $table->addColumn('id', 'integer', array('autoincrement' => true));
-            $table->addColumn('test_int', 'integer');
-            $table->addColumn('test_string', 'string', array('notnull' => false));
-            $table->setPrimaryKey(array('id'));
+        if (!self::$init) {
+            try {
+                /* @var $sm \Doctrine\DBAL\Schema\AbstractSchemaManager */
+                $table = new \Doctrine\DBAL\Schema\Table("write_table");
+                $table->addColumn('id', 'integer', array('autoincrement' => true));
+                $table->addColumn('test_int', 'integer');
+                $table->addColumn('test_string', 'string', array('notnull' => false));
+                $table->setPrimaryKey(array('id'));
 
-            foreach ($this->_conn->getDatabasePlatform()->getCreateTableSQL($table) as $sql) {
-                $this->_conn->executeUpdate($sql);
+                foreach ($this->_conn->getDatabasePlatform()->getCreateTableSQL($table) as $sql) {
+                    $this->_conn->executeUpdate($sql);
+                }
+                self::$init = true;
+            } catch (\Exception $e) {
+                var_dump($e->getMessage());
             }
-        } catch(\Exception $e) {
-var_dump($e->getMessage());
         }
         $this->_conn->executeUpdate('DELETE FROM write_table');
     }
