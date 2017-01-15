@@ -23,8 +23,7 @@ matrix:
         - docker pull microsoft/mssql-server-linux
         - docker build -t doctrine/sql-server -f docker/sql-server docker
         - docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=doctrine' -p 1433:1433 --name=db -d microsoft/mssql-server-linux
-        - docker run -v $(pwd):/doctrine doctrine/sql-server
-      script: php -m
+      script: docker run -v $(pwd):/doctrine doctrine/sql-server tests/travis/$DB.travis.xml
 
 install:
   - travis_retry composer install
