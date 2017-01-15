@@ -10,10 +10,16 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=doctrine
-  php-sqlsrv:
+  "php-sqlsrv":
     build:
       dockerfile: ./docker/sql-server
       context: ./docker
+    volumes:
+      - .:/doctrine
+    environment:
+      - DRIVER=${DRIVER}
+    depends_on:
+      - database
 
 matrix:
   PHP:
