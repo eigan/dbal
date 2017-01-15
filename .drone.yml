@@ -20,7 +20,7 @@ services:
     image: ${DATABASE}
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=doctrine
+      - SA_PASSWORD=D0ctrine
 
 matrix:
   PHP:

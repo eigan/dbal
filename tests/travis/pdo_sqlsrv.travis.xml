@@ -11,14 +11,14 @@
         <var name="db_type" value="pdo_sqlsrv"/>
         <var name="db_host" value="db" />
         <var name="db_username" value="sa" />
-        <var name="db_password" value="doctrine" />
+        <var name="db_password" value="D0ctrine" />
         <var name="db_name" value="doctrine_tests" />
         <var name="db_port" value="1433"/>
 
         <var name="tmpdb_type" value="Pdo_sqlsrv"/>
         <var name="tmpdb_host" value="db" />
         <var name="tmpdb_username" value="sa" />
-        <var name="tmpdb_password" value="doctrine" />
+        <var name="tmpdb_password" value="D0ctrine" />
         <var name="tmpdb_port" value="1433"/>
     </php>
 
