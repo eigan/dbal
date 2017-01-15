@@ -144,7 +144,6 @@ matrix:
       services:
         - postgresql
       env: DB=pgsql POSTGRESQL_VERSION=9.5
-
     - php: hhvm
       sudo: true
       dist: trusty
@@ -223,10 +222,12 @@ matrix:
 
 
 before_install:
-  - docker pull ubuntu:16.04
+  - docker pull microsoft/mssql-server-linux
 
 install:
   - travis_retry composer install
+  - docker build -f docker/sql-server .
+  - docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=doctrine' -p 1433:1433 --name=db -d microsoft/mssql-server-linux
 
 before_script:
   - if [ '$DB' = 'pgsql' ]; then sudo service postgresql stop; sudo service postgresql start $POSTGRESQL_VERSION; fi

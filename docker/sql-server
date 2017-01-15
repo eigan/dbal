@@ -1,0 +1,26 @@
+FROM ubuntu:16.04
+
+MAINTAINER doctrine
+
+RUN apt-get update -qq && \
+    apt-get install -qq -y --no-install-recommends wget
+
+RUN wget -O - http://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+RUN echo "deb [arch=amd64] http://packages.microsoft.com/ubuntu/16.04/prod xenial main" > /etc/apt/sources.list.d/mssql-release.list
+
+RUN apt-get update -qq && \
+    ACCEPT_EULA=Y apt-get install -qq -y \
+        php-pear \
+        php7.0-cli \
+        php7.0-dev \
+        msodbcsql \
+        unixodbc-dev-utf16
+
+RUN pecl install sqlsrv pdo_sqlsrv
+
+RUN echo "extension=sqlsrv.so" > /etc/php/7.0/cli/conf.d/sqlsrv.ini
+RUN echo "extension=pdo_sqlsrv.so" > /etc/php/7.0/cli/conf.d/pdo_sqlsrv.so.ini
+
+WORKDIR /doctrine
+
+ENTRYPOINT ["vendor/bin/phpunit"]
