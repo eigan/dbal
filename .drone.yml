@@ -29,6 +29,6 @@ matrix:
     - 7.0
   DRIVER:
     - sqlsrv
-    #- pdo_sqlsrv
+    - pdo_sqlsrv
   DATABASE:
     - microsoft/mssql-server-linux
