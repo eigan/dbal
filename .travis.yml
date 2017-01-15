@@ -152,9 +152,11 @@ matrix:
       env: DB=sqlsrv
       before_install:
         - docker pull microsoft/mssql-server-linux
-      install:
-        - docker build -f docker/sql-server .
+        - docker build -t doctrine/sql-server -f docker/sql-server docker/sql-server
         - docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=doctrine' -p 1433:1433 --name=db -d microsoft/mssql-server-linux
+        - docker run -v $(pwd):/doctrine doctrine/sql-server
+      script:
+        - php -m
 
     - php: hhvm
       sudo: true
