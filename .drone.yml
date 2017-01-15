@@ -6,10 +6,22 @@ pipeline:
     volumes:
         - /var/run/docker.sock:/var/run/docker.sock:ro
         - /var/lib/docker:/var/lib/docker
+  cache_restore:
+    image: plugins/sftp-cache
+    path: /var/cache/drone
+    restore: true
+    mount:
+      - /composer/cache
   install:
       image: composer/composer
       commands:
         - composer install
+  cache_rebuild:
+      image: plugins/sftp-cache
+      path: /var/cache/drone
+      rebuild: true
+      mount:
+        - /composer/cache
   test:
     image: php-sqlsrv
     commands:
@@ -30,7 +42,3 @@ matrix:
     #- pdo_sqlsrv
   DATABASE:
     - microsoft/mssql-server-linux
-
-networks:
-  default:
-    driver: bridge
