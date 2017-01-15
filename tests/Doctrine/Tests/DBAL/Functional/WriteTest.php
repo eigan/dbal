@@ -19,7 +19,7 @@ class WriteTest extends \Doctrine\Tests\DbalFunctionalTestCase
             $table->setPrimaryKey(array('id'));
 
             foreach ($this->_conn->getDatabasePlatform()->getCreateTableSQL($table) as $sql) {
-                $this->_conn->executeQuery($sql);
+                $this->_conn->executeUpdate($sql);
             }
         } catch(\Exception $e) {
 var_dump($e->getMessage());
