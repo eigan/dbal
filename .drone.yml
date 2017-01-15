@@ -1,6 +1,6 @@
 pipeline:
   build:
-    image: php-sqlsrv
+    image: phpsqlsrv
     commands:
       - vendor/bin/phpunit -c tests/travis/${DRIVER}.travis.xml
 
@@ -10,7 +10,7 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=doctrine
-  "php-sqlsrv":
+  phpsqlsrv:
     build:
       dockerfile: ./docker/sql-server
       context: ./docker
