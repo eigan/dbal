@@ -3,7 +3,7 @@
          xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.8/phpunit.xsd"
          backupGlobals="false"
          colors="true"
-         stopOnError="true"
+         stopOnError="false"
          bootstrap="../../vendor/autoload.php"
 >
     <php>
@@ -13,7 +13,7 @@
         <var name="db_host" value="127.0.0.1" />
         <var name="db_username" value="sa" />
         <var name="db_password" value="D0ctrine" />
-        <var name="db_name" value="master" />
+        <var name="db_name" value="" />
         <var name="db_port" value="1433"/>
 
         <var name="tmpdb_type" value="sqlsrv"/>
