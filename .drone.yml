@@ -11,8 +11,6 @@ services:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=doctrine
   php-sqlsrv:
-    volumes:
-      - .:/doctrine
     environment:
       - DRIVER=${DRIVER}
     depends_on:
