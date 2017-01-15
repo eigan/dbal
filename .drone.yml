@@ -2,7 +2,7 @@ pipeline:
   build:
     image: plugins/docker
     repo: php-sqlsrv
-    dockerfile: /docker/sql-server
+    dockerfile: ./docker/sql-server
     context: ./docker
   test:
     image: php-sqlsrv
