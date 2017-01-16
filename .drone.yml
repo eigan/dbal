@@ -8,7 +8,7 @@ pipeline:
   test:
     image: deeky666/php:${PHP}
     commands:
-      - php ${ADDITIONAL_ARGS} -d extension=pdo.so -d extension=pdo_sqlite.so -d extension=${DRIVER}${DRIVER_VARIATION}.so vendor/bin/phpunit -c tests/drone/${DRIVER}.travis.xml
+      - php ${ADDITIONAL_ARGS} -d extension=sqlite3.so -d extension=pdo.so -d extension=pdo_sqlite.so -d extension=${DRIVER}${DRIVER_VARIATION}.so vendor/bin/phpunit -c tests/drone/${DRIVER}.travis.xml
 
 services:
   db:
