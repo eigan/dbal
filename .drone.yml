@@ -8,7 +8,7 @@ pipeline:
   test:
     image: deeky666/php:${PHP}
     commands:
-      - php -d extension=pdo.so -d extension=pdo_sqlite.so -d extension=${DRIVER}${DRIVER_VARIATION}.so ${ADDITIONAL_ARGS} vendor/bin/phpunit -c tests/drone/${DRIVER}.travis.xml
+      - php ${ADDITIONAL_ARGS} -d extension=pdo.so -d extension=pdo_sqlite.so -d extension=${DRIVER}${DRIVER_VARIATION}.so vendor/bin/phpunit -c tests/drone/${DRIVER}.travis.xml
 
 services:
   db:
@@ -20,6 +20,7 @@ services:
 matrix:
   include:
     - PHP: 7.0
+      DATABASE: base
       DRIVER: pdo_sqlite
 
     - PHP: 7.0
