@@ -12,7 +12,7 @@ pipeline:
 
 services:
   db:
-    image: deeky666/${DATABASE:-base}
+    image: deeky666/${DATABASE}
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=D0ctrine
