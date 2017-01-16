@@ -27,7 +27,7 @@ matrix:
       DATABASE: mysql:5.7
       DRIVER: pdo_mysql
       DRIVER_VARIATION: -mysqlnd
-      ADDITONAL_ARGS: -d extension=mysqlnd.so
+      ADDITIONAL_ARGS: -d extension=mysqlnd.so
 
     - PHP: 7.0
       DATABASE: mysql:5.7
@@ -38,7 +38,7 @@ matrix:
       DATABASE: mysql:5.7
       DRIVER: mysqli
       DRIVER_VARIATION: -mysqlnd
-      ADDITONAL_ARGS: -d extension=mysqlnd.so
+      ADDITIONAL_ARGS: -d extension=mysqlnd.so
 
     - PHP: 7.0
       DATABASE: mysql:5.7
