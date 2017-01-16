@@ -1,11 +1,4 @@
 pipeline:
-  build:
-    image: docker
-    commands:
-      - docker build -t php-sqlsrv -f docker/sql-server docker
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /var/lib/docker:/var/lib/docker
   install:
       image: composer/composer
       commands:
@@ -13,22 +6,42 @@ pipeline:
       volumes:
         - /tmp/composer:/composer/cache
   test:
-    image: php-sqlsrv
+    image: deeky666/php:${PHP}
     commands:
-      - vendor/bin/phpunit -c tests/travis/${DRIVER}.travis.xml
+      - php -d extension=pdo.so -d extension=${DRIVER}${DRIVER_VARIATION}.so ${ADDITIONAL_ARGS} vendor/bin/phpunit -c tests/travis/${DRIVER}.travis.xml
 
 services:
   db:
-    image: ${DATABASE}
+    image: deeky666/${DATABASE:-base}
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=D0ctrine
 
 matrix:
-  PHP:
-    - 7.0
-  DRIVER:
-    - sqlsrv
-    - pdo_sqlsrv
-  DATABASE:
-    - microsoft/mssql-server-linux
+  include:
+    - PHP: 7.0
+      DRIVER: pdo_sqlite
+
+    - PHP: 7.0
+      DATABASE: mysql:5.7
+      DRIVER: pdo_mysql
+      DRIVER_VARIATION: -mysqlnd
+      ADDITONAL_ARGS: -d extension=mysqlnd.so
+
+    - PHP: 7.0
+      DATABASE: mysql:5.7
+      DRIVER: pdo_mysql
+      DRIVER_VARIATION: -libmysql
+
+    - PHP: 7.0
+      DATABASE: mysql:5.7
+      DRIVER: mysqli
+      DRIVER_VARIATION: -mysqlnd
+      ADDITONAL_ARGS: -d extension=mysqlnd.so
+
+    - PHP: 7.0
+      DATABASE: mysql:5.7
+      DRIVER: mysqli
+      DRIVER_VARIATION: -libmysql
+#  DATABASE:
+#    - microsoft/mssql-server-linux
