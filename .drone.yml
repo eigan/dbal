@@ -43,5 +43,6 @@ matrix:
       DATABASE: mysql:5.7
       DRIVER: mysqli
       DRIVER_VARIATION: -libmysql
+
 #  DATABASE:
 #    - microsoft/mssql-server-linux
