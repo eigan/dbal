@@ -272,4 +272,29 @@ class ConnectionTest extends \Doctrine\Tests\DbalFunctionalTestCase
 
         $connection->close();
     }
+
+    /**
+     * @group DBAL-990
+     */
+    public function testDeterminesDatabasePlatformWhenConnectingToNonExistentDatabase()
+    {
+        if (in_array($this->_conn->getDatabasePlatform()->getName(), array('oracle', 'db2'), true)) {
+            $this->markTestSkipped('Platform does not support connecting without database name.');
+        }
+
+        $params = $this->_conn->getParams();
+        $params['dbname'] = 'foo_bar';
+
+        $connection = DriverManager::getConnection(
+            $params,
+            $this->_conn->getConfiguration(),
+            $this->_conn->getEventManager()
+        );
+
+        $this->assertInstanceOf('Doctrine\DBAL\Platforms\AbstractPlatform', $connection->getDatabasePlatform());
+        $this->assertFalse($connection->isConnected());
+        $this->assertSame($params, $connection->getParams());
+
+        $connection->close();
+    }
 }

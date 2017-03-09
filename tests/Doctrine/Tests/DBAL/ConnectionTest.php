@@ -670,4 +670,29 @@ class ConnectionTest extends \Doctrine\Tests\DbalTestCase
 
         $this->assertSame($platformMock, $connection->getDatabasePlatform());
     }
+
+    /**
+     * @group DBAL-990
+     */
+    public function testRethrowsOriginalExceptionOnDeterminingPlatformWhenConnectingToNonExistentDatabase()
+    {
+        /** @var \Doctrine\Tests\Mocks\VersionAwarePlatformDriverMock|\PHPUnit_Framework_MockObject_MockObject $driverMock */
+        $driverMock = $this->createMock('Doctrine\Tests\Mocks\VersionAwarePlatformDriverMock');
+
+        $connection = new Connection(array('dbname' => 'foo'), $driverMock);
+        $originalException = new \Exception('Original exception');
+        $fallbackException = new \Exception('Fallback exception');
+
+        $driverMock->expects($this->at(0))
+            ->method('connect')
+            ->willThrowException($originalException);
+
+        $driverMock->expects($this->at(1))
+            ->method('connect')
+            ->willThrowException($fallbackException);
+
+        $this->expectExceptionMessage($originalException->getMessage());
+
+        $connection->getDatabasePlatform();
+    }
 }
